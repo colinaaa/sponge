@@ -1,10 +1,13 @@
 #ifndef SPONGE_LIBSPONGE_BYTE_STREAM_HH
 #define SPONGE_LIBSPONGE_BYTE_STREAM_HH
 
+#include "buffer.hh"
+
 #include <cstddef>
 #include <cstdint>
 #include <deque>
 #include <list>
+#include <sstream>
 #include <string>
 #include <utility>
 
@@ -17,7 +20,12 @@ class ByteStream {
   private:
     // Your code here -- add private members as necessary.
 
-    bool _error{};  //!< Flag indicating that the stream suffered an error.
+    std::stringstream _buf;  //!< Buffer that stores the bytes data
+    bool _error{};           //!< Flag indicating that the stream suffered an error.
+    size_t _cap{};
+    bool _inputEnded{};
+    bool _output_ended{};
+    size_t _buf_size{};
 
   public:
     //! Construct a stream with room for `capacity` bytes.
