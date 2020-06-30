@@ -50,17 +50,12 @@ void ByteStream::pop_output(const size_t len) {
     if (len == 0) {
         return;
     }
-    if (len >= buffer_size()) {
-        _buf_size = 0;
-        _buf.seekg(ios_base::end);
-        if (_inputEnded) {
-            _buf.setstate(ios_base::eofbit);
-        }
-        return;
-    }
 
     _buf.seekg(len, ios_base::cur);
     _buf_size -= len;
+    if (_buf_size == 0 && _inputEnded) {
+        _buf.setstate(ios_base::eofbit);
+    }
 }
 
 void ByteStream::end_input() {

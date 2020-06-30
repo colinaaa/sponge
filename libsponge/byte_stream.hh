@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <deque>
+#include <iostream>
 #include <list>
 #include <sstream>
 #include <string>
