@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <ios>
+#include <iostream>
 #include <iterator>
 #include <stdexcept>
 
@@ -17,7 +18,8 @@ void DUMMY_CODE(Targs &&... /* unused */) {}
 
 using namespace std;
 
-ByteStream::ByteStream(const size_t capacity) : _buf(), _cap(capacity) {}
+ByteStream::ByteStream(const size_t capacity)
+    : _buf(std::ios_base::app | std::ios_base::in | std::ios_base::out), _cap(capacity) {}
 
 size_t ByteStream::write(const string &data) {
     if (_inputEnded) {
@@ -36,12 +38,18 @@ size_t ByteStream::write(const string &data) {
 
 //! \param[in] len bytes will be copied from the output side of the buffer
 string ByteStream::peek_output(const size_t len) const {
+    if (len == 0) {
+        return {};
+    }
     const auto &buf = _buf.str();
     return {buf.begin() + bytes_read(), buf.begin() + len + bytes_read()};
 }
 
 //! \param[in] len bytes will be removed from the output side of the buffer
 void ByteStream::pop_output(const size_t len) {
+    if (len == 0) {
+        return;
+    }
     if (len >= buffer_size()) {
         _buf_size = 0;
         _buf.seekg(ios_base::end);

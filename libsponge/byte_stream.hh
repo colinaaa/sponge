@@ -24,7 +24,6 @@ class ByteStream {
     bool _error{};           //!< Flag indicating that the stream suffered an error.
     size_t _cap{};
     bool _inputEnded{};
-    bool _output_ended{};
     size_t _buf_size{};
 
   public:
